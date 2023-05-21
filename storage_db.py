@@ -30,5 +30,15 @@ class DBStorage():
 
     # method to get results on query from DB
     def query_results(self,query):
-        db_results = pd.read_sql(f"SELECT * FROM results WHERE query='{query}' ORDER BY rank ASC;", self.con)
-        return db_results
+        # df because pd return DataFrame
+        df = pd.read_sql(f"SELECT * FROM results WHERE query='{query}' ORDER BY rank ASC;", self.con)
+        return df
+
+    def insert_row(self,values):
+        cursor = self.con.cursor()
+        try:
+            cursor.execute('INSERT INTO results(query,rank,link,title,snippet,html,created) VALUES(?,?,?,?,?,?,?)',values)
+            self.con.commit()
+        except sqlite3.IntegrityError:
+            pass
+        cursor.close()
