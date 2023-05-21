@@ -27,3 +27,8 @@ class DBStorage():
         cursor.execute(results_table)
         self.con.commit()
         cursor.close()
+
+    # method to get results on query from DB
+    def query_results(self,query):
+        db_results = pd.read_sql(f"SELECT * FROM results WHERE query='{query}' ORDER BY rank ASC;", self.con)
+        return db_results
