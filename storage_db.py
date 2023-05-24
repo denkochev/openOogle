@@ -37,8 +37,19 @@ class DBStorage():
     def insert_row(self,values):
         cursor = self.con.cursor()
         try:
-            cursor.execute('INSERT INTO results(query,rank,link,title,snippet,html,created) VALUES(?,?,?,?,?,?,?)',values)
+            cursor.execute('INSERT INTO results(query,rank,link,title,snippet,html,created) VALUES(?,?,?,?,?,?,?)', values)
             self.con.commit()
         except sqlite3.IntegrityError:
             pass
         cursor.close()
+
+    def update_relevance(self, query, link, relevance):
+        cursor = self.con.cursor()
+        cursor.execute("UPDATE results SET relevance=? WHERE query=? AND link=?", [relevance, query, link])
+        self.con.commit()
+        cursor.close()
+
+
+
+
+# also we can add machine learning based on relevance (sql row)
