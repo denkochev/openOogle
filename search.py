@@ -20,6 +20,7 @@ def search_api(query, pages=int(RESULT_COUNT / 10)):
         )
         response = requests.get(url)
         data = response.json()
+        print(url)
 
         results += data["items"]
     res_df = pd.DataFrame.from_dict(results)

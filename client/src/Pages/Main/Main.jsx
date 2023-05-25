@@ -47,6 +47,7 @@ const Main = () => {
                         />
                     </div>
 
+
                     {/*Sound bar*/}
                     {/*<div className="searchbar-right">*/}
                     {/*    <svg className="voice-search" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">*/}
