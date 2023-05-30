@@ -1,11 +1,10 @@
 import ResultPage from "../../components/ResultPage/ResultPage";
 import {useState, useEffect} from 'react';
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
+import OpenOogleLogo from '../../images/logo-ver2-removebg.png';
 import settings from '../../utils/settings.json';
 import axios from "axios";
 import './Result.css';
-import OpenOogleLogo from '../../images/logo-ver2-removebg.png';
-import {useNavigate} from "react-router-dom";
 
 const Results = () => {
     const {backURL} = settings;
@@ -22,8 +21,10 @@ const Results = () => {
     }, [backURL, query]);
 
     const search = () => {
-        navigate('/search-results/'+queryInputValue);
-        setResults([]);
+        if (queryInputValue !== query){
+            navigate('/search-results/'+queryInputValue);
+            setResults([]);
+        }
     }
 
     return (
@@ -76,10 +77,14 @@ const Results = () => {
 
             {results.length > 0 ? results.map(res => <ResultPage key={res.rank} {...res} />)
                 : (
-                    <div className="loader-container">
-                        <div className="spinner"></div>
-                        <h3>OpenOogle - ads free open source search system</h3>
-                    </div>
+                    <>
+                        <div className="loader-container">
+                            <div className="spinner"></div>
+                        </div>
+                        <div className='description'>
+                                <h3>OpenOogle - ads free open source search system</h3>
+                        </div>
+                    </>
                 )}
         </div>
     )

@@ -5,7 +5,7 @@
     height: 10%;
     width: 100%;
     background: rgb(244,244,243);
-    border-radius: 25px;
+    border-radius: 0 0 20px 20px;
     border-bottom: 1px solid #ebebeb;
     display: flex;
 }
@@ -127,19 +127,26 @@
     z-index: 1;
 }
 
-.loader-container h3{
-    margin: 5px;
-    padding: 15px;
+.description{
+    position: fixed;
+    color: rgba(0, 0, 0, .87);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.description h3{
     font-family: 'Roboto', sans-serif;
     font-size: 22px; /* Розмір шрифту */
     font-weight: 500;
+    justify-content: center;
 }
 
 .spinner {
-    width: 64px;
-    height: 64px;
+    width: 54px;
+    height: 54px;
     border: 8px solid;
-    border-color: #cbbe81 transparent #3d5af1 transparent;
+    border-color: #c35f64 transparent #83c8ed transparent;
     border-radius: 50%;
     animation: spin-anim 1.2s linear infinite;
 }
