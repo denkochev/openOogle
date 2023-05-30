@@ -1,15 +1,14 @@
 import './Main.css';
 import OpenOogleLogo from '../../images/logo-ver2-removebg.png';
 import {useNavigate} from "react-router-dom";
+import {useState} from 'react';
 
 const Main = () => {
     let navigate = useNavigate();
+    const [queryInputValue, setQueryInputValue] = useState('');
 
-    const search = (event) => {
-        if (event.key === 'Enter'){
-            const userQuery = event.target.value;
-            navigate('/search-results/'+userQuery);
-        }
+    const search = () => {
+        navigate('/search-results/'+queryInputValue);
     }
 
     return(
@@ -19,7 +18,7 @@ const Main = () => {
             <div className="searchbar">
                 <div className="searchbar-wrapper">
                     <div className="searchbar-left">
-                        <div className="search-icon-wrapper">
+                        <div className="search-icon-wrapper" onClick={search}>
                 <span className="search-icon searchbar-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path
@@ -43,7 +42,13 @@ const Main = () => {
                                placeholder="Search OpenOogle"
                                aria-controls="dropdown-menu"
                                aria-expanded={true}
-                               onKeyUp={search}
+                               value={queryInputValue}
+                               onKeyUp={(e) => {
+                                   if(e.key==='Enter'){
+                                       search()
+                                   }}
+                               }
+                               onChange={(e) => setQueryInputValue(e.target.value)}
                         />
                     </div>
 
