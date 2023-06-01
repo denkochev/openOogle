@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Main from './Pages/Main/Main';
-import Results from "./Pages/Results/Results";
+import Results from './Pages/Results/Results';
+import {CacheProvider} from './context/CacheContext';
 
 import {
     createBrowserRouter,
@@ -31,5 +32,7 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouterProvider router={router} />
+    <CacheProvider>
+        <RouterProvider router={router} />
+    </CacheProvider>
 );
