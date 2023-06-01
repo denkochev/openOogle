@@ -11,7 +11,7 @@ app = FastAPI()
 # CORS POLICY
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adress of React client
+    allow_origins=["*"],  # permission for ALL DOMEN
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
@@ -31,6 +31,7 @@ def run_search(query):
     results = results.to_dict(orient='records')
     json_results = json.dumps(results, ensure_ascii=False)
     return json_results
+
 
 @app.get("/search")
 def find(q: str):
