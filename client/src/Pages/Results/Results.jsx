@@ -1,6 +1,7 @@
 import ResultPage from "../../components/ResultPage/ResultPage";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {useParams, useNavigate} from "react-router-dom";
+import {CacheContext} from "../../context/CacheContext";
 import OpenOogleLogo from '../../images/logo-ver2-removebg.png';
 import settings from '../../utils/settings.json';
 import axios from "axios";
@@ -12,13 +13,31 @@ const Results = () => {
     const [results, setResults] = useState([]);
     const [queryInputValue, setQueryInputValue] = useState(query);
     let navigate = useNavigate();
+    // cache mechanism for query that we already request
+    const { updateCache, getFromCache } = useContext(CacheContext);
 
     useEffect(() => {
-        axios.get(backURL + '/search?q=' + query)
-            .then((response) => {
-                setResults(JSON.parse(response.data));
-            })
-    }, [backURL, query]);
+      const fetchData = async () => {
+
+          const cachedData = getFromCache(query);
+
+          if (cachedData){
+              // use results from cache
+              setResults(cachedData);
+          } else {
+              try {
+                  const response = await axios.get(`${backURL}/search?q=${query}`);
+                  const data = JSON.parse(response.data);
+                  setResults(data);
+                  // save results in cache
+                  updateCache(query, data);
+              } catch (error) {
+                  console.error(error);
+              }
+          }
+      };
+      fetchData();
+    }, [query]);
 
     const search = () => {
         if (queryInputValue !== query){
