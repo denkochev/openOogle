@@ -1,55 +1,78 @@
-import sqlite3
+import psycopg2
 import pandas as pd
+from credentials import *
 
 class DBStorage():
     def __init__(self):
-        # connection to my db when class init
-        self.con = sqlite3.connect("pages_links.db")
+        # connection to PostgreSQL
+        self.con = psycopg2.connect(
+            dbname=DBNAME,
+            user=DBUSER,
+            password=DBPASSWORD,
+            host=DBHOST,
+            port=DBPORT
+        )
         self.create_tables()
 
     def create_tables(self):
         cursor = self.con.cursor()
-        results_table = r"""
+        results_table = '''
             CREATE TABLE IF NOT EXISTS results (
-                id INTEGER PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
                 query TEXT,
                 rank INTEGER,
                 link TEXT,
                 title TEXT,
                 snippet TEXT,
                 html TEXT,
-                created DATETIME,
+                created TIMESTAMP,
                 relevance INTEGER,
                 UNIQUE(query, link)
             );
-        """
-
+        '''
         cursor.execute(results_table)
         self.con.commit()
         cursor.close()
 
     # method to get results on query from DB
-    def query_results(self,query):
-        # df because pd return DataFrame
-        df = pd.read_sql(f"SELECT * FROM results WHERE query='{query}' ORDER BY rank ASC;", self.con)
+    def query_results(self, query):
+        cursor = self.con.cursor()
+        cursor.execute(f"SELECT * FROM results WHERE query = %s ORDER BY rank ASC;", (query,))
+        rows = cursor.fetchall()
+        cursor.close()
+        columns = [desc[0] for desc in cursor.description]
+        df = pd.DataFrame(rows, columns=columns)
         return df
 
-    def insert_row(self,values):
+    def insert_row(self, values):
         cursor = self.con.cursor()
         try:
-            cursor.execute('INSERT INTO results(query,rank,link,title,snippet,html,created) VALUES(?,?,?,?,?,?,?)', values)
+            insert_query = '''
+                INSERT INTO results (query, rank, link, title, snippet, html, created)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            '''
+            cursor.execute(insert_query, values)
             self.con.commit()
-        except sqlite3.IntegrityError:
+        except psycopg2.IntegrityError:
             pass
         cursor.close()
 
     def update_relevance(self, query, link, relevance):
         cursor = self.con.cursor()
-        cursor.execute("UPDATE results SET relevance=? WHERE query=? AND link=?", [relevance, query, link])
+        update_query = '''
+            UPDATE results
+            SET relevance = %s
+            WHERE query = %s AND link = %s
+        '''
+        cursor.execute(update_query, (relevance, query, link))
         self.con.commit()
         cursor.close()
 
+    def __del__(self):
+        # Закриття з'єднання з базою даних при завершенні роботи з об'єктом
+        self.con.close()
 
 
 
-# also we can add machine learning based on relevance (sql row)
+
+# also we can add machine learning based on relevance (sql row):
