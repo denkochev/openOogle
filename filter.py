@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from credentials import *
 
-with open("blacklist.txt") as f:
+with open("utils/blacklist.txt") as f:
     domains_blacklist = set(f.read().split("\n"))
 
 def get_page_content(row):
@@ -13,7 +13,7 @@ def get_page_content(row):
 
 def tracker_urls(row):
     soup = BeautifulSoup(row["html"])
-    # Find Google Analytics/managers etc stuff
+    # Find Google Analytics/managers etc. stuff
     # get all scripts from page
     scripts = soup.find_all("script", {"src": True})
     srcs = [s.get("src") for s in scripts]
