@@ -1,5 +1,7 @@
 import psycopg2
+from psycopg2.extras import execute_values
 import pandas as pd
+
 from credentials import *
 
 class DBStorage():
@@ -49,9 +51,20 @@ class DBStorage():
         try:
             insert_query = '''
                 INSERT INTO results (query, rank, link, title, snippet, html, created)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                VALUES %s
             '''
-            cursor.execute(insert_query, values)
+            # cleaning from NUL
+            cleaned_values = []
+            for row in values:
+                cleaned_row = []
+                for value in row:
+                    if isinstance(value, str):
+                        cleaned_row.append(value.replace('\x00', ''))
+                    else:
+                        cleaned_row.append(value)
+                cleaned_values.append(tuple(cleaned_row))
+
+            execute_values(cursor, insert_query, cleaned_values)
             self.con.commit()
         except psycopg2.IntegrityError:
             pass
