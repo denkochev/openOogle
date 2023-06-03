@@ -69,7 +69,7 @@ class DBStorage():
         cursor.close()
 
     def __del__(self):
-        # Закриття з'єднання з базою даних при завершенні роботи з об'єктом
+        # CLOSE CONNECTION TO DB
         self.con.close()
 
 

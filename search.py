@@ -67,6 +67,7 @@ def search(query):
     results["query"] = query
     results["created"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     results = results[columns]
+    print(results)
     results.apply(lambda x: storage.insert_row(x), axis=1)
 
     return results
