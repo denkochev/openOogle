@@ -39,18 +39,21 @@ def scrape_page(links):
             html.append("")
     return html
 
-# MAIN SEARCH METHOD
-# How it works:
-# 1. Checking the Database to see if this query already been searched
-# 2. If it is return results
-# 3. If it isn't:
-#                   - querying the Google API
-#                   - get new results
-#                   - format them properly
-#                   - save them to the DB
-#                   - return them
+"""
+MAIN SEARCH METHOD
+How it works:
+1. Checking the Database to see if this query already been searched
+2. If it is return results
+3. If it isn't:
+                  - querying the Google API
+                  - get new results
+                  - format them properly
+                  - save them to the DB
+                  - return them
+"""
+
 def search(query):
-    columns = ["query", "rank", "link", "title", "snippet", "html", "created"]
+    columns = ["query", "rank", "link", "title", "snippet", "html", "created", "relevance"]
     # initializing of class from storage_db
     # instance of class DBStorage
     storage = DBStorage()
@@ -66,6 +69,7 @@ def search(query):
 
     results["query"] = query
     results["created"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+    results["relevance"] = None
     results = results[columns]
 
     rows_to_insert = []

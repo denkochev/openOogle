@@ -50,10 +50,10 @@ class DBStorage():
         cursor = self.con.cursor()
         try:
             insert_query = '''
-                INSERT INTO results (query, rank, link, title, snippet, html, created)
+                INSERT INTO results (query, rank, link, title, snippet, html, created, relevance)
                 VALUES %s
             '''
-            # cleaning from NUL
+            # cleaning from NUL, this method protect us from invalid response when we scrap html pages
             cleaned_values = []
             for row in values:
                 cleaned_row = []
