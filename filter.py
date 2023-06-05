@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from credentials import *
+import math
 
 with open("utils/blacklist.txt") as f:
     domains_blacklist = set(f.read().split("\n"))
@@ -24,11 +25,17 @@ def tracker_urls(row):
     # get links like this : "https://googlemanager.com/script.js"
     # and parse to this -> "googlemanager.com" [ LEAVE FOR US THE ROOT DOMAIN ]
     all_domains = [urlparse(s).hostname for s in srcs + href]
-    # bad_domanis this is a list from here:
+    # bad_domanis this is document from here:
     # https://raw.githubusercontent.com/notracking/hosts-blocklists/master/dnscrypt-proxy/dnscrypt-proxy.blacklist.txt
 
     bad_domains = [a for a in all_domains if a in domains_blacklist]
     return len(bad_domains)
+
+def user_opinion(row):
+    score = row["relevance"]
+    if(not math.isnan(score)):
+        return score/10
+    return 0
 
 class Filter():
     def __init__(self,results):
@@ -50,9 +57,16 @@ class Filter():
         tracker_count[tracker_count > tracker_count.median()] = RESULT_COUNT * 2
         self.filtered["rank"] += tracker_count
 
+    def relevance_evaluator(self):
+        score_count = self.filtered.apply(user_opinion, axis=1)
+        print(self.filtered)
+        self.filtered["rank"] -= score_count
+        print(self.filtered)
+
     def filter(self):
         self.page_content_filter()
         self.tracker_filter()
+        #self.relevance_evaluator()
         # reSort our DataFrame by rank
         self.filtered = self.filtered.sort_values("rank", ascending=True)
         self.filtered["rank"] = self.filtered["rank"].round()
