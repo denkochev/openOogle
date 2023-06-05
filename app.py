@@ -27,7 +27,7 @@ def run_search(query):
     # filtering AND ReRank the results
     fi = Filter(results)
     results = fi.filter()
-    results = results.drop(["html", "created"], axis=1)
+    results = results.drop(["html", "created", "relevance"], axis=1)
     results = results.to_dict(orient='records')
     json_results = json.dumps(results, ensure_ascii=False)
     return json_results
