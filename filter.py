@@ -33,8 +33,11 @@ def tracker_urls(row):
 
 def user_opinion(row):
     score = row["relevance"]
-    if(not math.isnan(score)):
-        return score/10
+
+    print(type(row))
+
+    # if(not math.isnan(score)):
+    #     return score
     return 0
 
 class Filter():
@@ -59,14 +62,12 @@ class Filter():
 
     def relevance_evaluator(self):
         score_count = self.filtered.apply(user_opinion, axis=1)
-        print(self.filtered)
         self.filtered["rank"] -= score_count
-        print(self.filtered)
 
     def filter(self):
         self.page_content_filter()
         self.tracker_filter()
-        #self.relevance_evaluator()
+        self.relevance_evaluator()
         # reSort our DataFrame by rank
         self.filtered = self.filtered.sort_values("rank", ascending=True)
         self.filtered["rank"] = self.filtered["rank"].round()
