@@ -29,7 +29,7 @@ RESULT_COUNT = 20
 DBNAME = "NAME-POSTGRE-DB"
 DBUSER = "NAME-ACC-FOR-YOUR-POSTGRE-SERV"
 DBPASSWORD = "PASSWORD-ACC-FOR-YOUR-POSTGRE-SERV"
-DBHOST = "DB-serv" # < -  your DB serv port 
+DBHOST = "DB-serv" # < -  your DB serv host 
 DBPORT = 5432 # < -  your DB serv port 
 
 ```
