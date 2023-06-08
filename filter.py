@@ -34,7 +34,7 @@ def tracker_urls(row):
 def user_opinion(row):
     score = row["relevance"]
 
-    print(type(row))
+    #print(type(row))
 
     # if(not math.isnan(score)):
     #     return score
