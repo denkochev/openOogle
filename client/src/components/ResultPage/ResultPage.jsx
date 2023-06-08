@@ -30,7 +30,7 @@ const ResultPage = ({rank, link, snippet, title, query}) => {
 
     return (
         <div className='page-result'>
-            <p>{rank}</p>
+            {/*<p>{rank}</p>*/}
             <span className='pure-link'>{decodeURIComponent(link)}</span>
             <a href={link}>{title}</a>
             <p>{snippet}</p>
@@ -42,7 +42,10 @@ const ResultPage = ({rank, link, snippet, title, query}) => {
                 />
                 :
                     evaluateStatus? <span className='thanks-text'>Thanks for your opinion. You make OpenOogle better!</span>
-                        : <button onClick={()=>setEvaluator(!evaluator)}>Evaluate</button>}
+                        :
+                        <button className='eval' onClick={()=>setEvaluator(!evaluator)}>
+                            Evaluate
+                        </button>}
         </div>
     )
 }
