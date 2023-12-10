@@ -13,10 +13,10 @@ cd client
 npm i
 ```
 
-2. Create credentials.py file with variables where describe your main configuration settings: API, PosgreSQL login etc.
+2. Create credentials file with variables where describe your main configuration settings: API, PosgreSQL login etc.
 
-File credentials.py has to look like this:
-```angular2html
+File .env has to look like this:
+```bash
 # Google Search API block
 SEARCH_KEY = "YOUR-GOOGLE-API-SEARCH-KEY"
 SEARCH_ID = "YOUR-SEARCH-ID"
