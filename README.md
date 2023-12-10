@@ -6,13 +6,13 @@ Implementation of search engine based on GSE API with additional adds filtering 
 ## Setup
 For unix sytem:
 ```
-pip install -r packages.txt
+pip install -r requirements.txt
 cd client 
 npm i
 ```
 For windows:
 ```
-py -m pip install -r packages.txt
+py -m pip install -r requirements.txt
 cd client 
 npm i
 ```
