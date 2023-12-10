@@ -1,10 +1,18 @@
-from credentials import *
+import os
 import requests
 from requests.exceptions import RequestException
 import pandas as pd
 from storage_db import DBStorage
 from urllib.parse import quote_plus
 from datetime import datetime
+from dotenv import load_dotenv
+
+# get env
+load_dotenv()
+RESULT_COUNT = int(os.getenv('RESULT_COUNT'))
+SEARCH_URL = os.getenv('SEARCH_URL')
+SEARCH_KEY = os.getenv('SEARCH_KEY')
+SEARCH_ID = os.getenv('SEARCH_ID')
 
 # method to get response from Google Custom Search
 def search_api(query, pages=int(RESULT_COUNT / 10)):
