@@ -33,6 +33,11 @@ DBHOST = "DB-serv" # < -  your DB serv host
 DBPORT = 5432 # < -  your DB serv port 
 
 ```
+For the Frontend create .env.local inside `./client` with following value:
+```bash
+ REACT_APP_BACKEND_URL="YOUR PYTHON BACKEND URL"
+```
+
 3. Launch backend.
 
 For unix sytems:
