@@ -1,5 +1,9 @@
-1. Install packages
-
+# Google Search Engine API wrapper
+Implementation of search engine based on GSE API with additional adds filtering and search result storage.
+1. [How to setup project](#setup)
+2. [Required credentials](#credentials)
+3. [How to run local servers](#run-services)
+## Setup
 For unix sytem:
 ```
 pip install -r packages.txt
@@ -12,8 +16,8 @@ py -m pip install -r packages.txt
 cd client 
 npm i
 ```
-
-2. Create credentials file with variables where describe your main configuration settings: API, PosgreSQL login etc.
+## Credentials
+Create credentials file with variables where describe your main configuration settings: API, PosgreSQL login etc.
 
 File .env has to look like this:
 ```bash
@@ -38,19 +42,20 @@ For the Frontend create .env.local inside `./client` with following value:
  REACT_APP_BACKEND_URL="YOUR PYTHON BACKEND URL"
 ```
 
-3. Launch backend.
+## Run services
+Launch backend.
 
 For unix sytems:
-```
+```bash
 uvicorn app:app --reload
 ```
 For windows:
-```
+```bash
  py -m uvicorn app:app --reload  
 ```
-4. Launch frontend.
+Launch frontend.
 
-```angular2html
+```bash
 cd client
 npm start
 ```
