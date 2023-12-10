@@ -1,12 +1,12 @@
 import {Rating} from '@mui/material';
 import {useState} from 'react';
-import settings from '../../utils/settings.json';
 import axios from "axios";
 import './ResultPage.css';
+
 const ResultPage = ({rank, link, snippet, title, query}) => {
     const [evaluator, setEvaluator] = useState(false);
     const [evaluateStatus,setEvaluateStatus] = useState(false);
-    const {backURL} = settings;
+     const backURL = process.env.REACT_APP_BACKEND_URL;
     const evaluateResult = (userRating)=>{
         const userScore = userRating * 2;
 

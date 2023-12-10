@@ -3,12 +3,11 @@ import {useState, useEffect, useContext} from 'react';
 import {useParams, useNavigate} from "react-router-dom";
 import {CacheContext} from "../../context/CacheContext";
 import OpenOogleLogo from '../../images/logo-ver2-removebg.png';
-import settings from '../../utils/settings.json';
 import axios from "axios";
 import './Result.css';
 
 const Results = () => {
-    const {backURL} = settings;
+    const backURL = process.env.REACT_APP_BACKEND_URL;
     const {query} = useParams();
     const [results, setResults] = useState([]);
     const [queryInputValue, setQueryInputValue] = useState(query);
