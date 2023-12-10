@@ -1,7 +1,12 @@
+import os
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
-from credentials import *
-import math
+from dotenv import load_dotenv
+
+# get env
+load_dotenv()
+RESULT_COUNT = int(os.getenv('RESULT_COUNT'))
+
 
 with open("utils/blacklist.txt") as f:
     domains_blacklist = set(f.read().split("\n"))

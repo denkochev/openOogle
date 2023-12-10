@@ -1,8 +1,17 @@
+import os
 import psycopg2
 from psycopg2.extras import execute_values
 import pandas as pd
+from dotenv import load_dotenv
 
-from credentials import *
+# get env
+load_dotenv()
+DBNAME = os.getenv('DBNAME')
+DBUSER = os.getenv('DBUSER')
+DBPASSWORD = os.getenv('DBPASSWORD')
+DBHOST = os.getenv('DBHOST')
+DBPORT = os.getenv('DBPORT')
+
 
 class DBStorage():
     def __init__(self):
@@ -84,8 +93,5 @@ class DBStorage():
     def __del__(self):
         # CLOSE CONNECTION TO DB
         self.con.close()
-
-
-
 
 # also we can add machine learning based on relevance (sql row):
